@@ -1,0 +1,61 @@
+#!/bin/bash
+#############################
+### jmaintenance 0.6-beta ###
+#############################
+# install - installer script
+#
+# Copyright (C) 2014 Peter Simon
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+
+### BEGIN SCRIPT ###
+
+## Variable definitions ##
+
+# Standard message colors
+readonly OK="\e[7;32m OK \e[0m"
+readonly INFO="\e[7;36mINFO\e[0m"
+readonly WARN="\e[7;33mWARN\e[0m"
+readonly FAIL="\e[7;31mFAIL\e[0m"
+# Default installation directory
+installdir="/opt/jmaintenance"
+
+## Preparation ##
+
+# Check PWD
+! [ "$(echo $PWD | rev | awk -F / '{print $1}' | rev)" = "jmaintenance" ] && \
+    whiptail \
+    --backtitle "jmaintenance installer" \
+    --title "Not in program directory!" \
+    --msgbox "You are not in the program directory, please cd to jmaintenance and rerun the script." \
+    0 0
+
+# Check user
+
+
+# Import version from src/config.bash
+VERSION="$(cat src/config.bash | grep VERSION= | awk -F = '{print $2}' | rev | cut --complement -c -1 | rev |  cut --complement -c -1)"
+
+# Display welcome message
+! whiptail \
+    --backtitle "jmaintenance $VERSION installer" \
+    --title "Welcome to jmaintenance!" \
+    --yes-button "Continue" \
+    --no-button "Abort" \
+    --yesno "This installer will set up jmaintenance, a system recovery program." 0 0 \
+    && printf "$INFO Aborted by user, exit.\n"
+
+## Begin installation ##
