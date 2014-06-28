@@ -25,7 +25,7 @@ For installation instructions see doc/INSTALL.
 
 ### Authors
 
-Author: Peter Simon
+Author: Peter Simon<br>
 Contributors: Michael Caron Coutier, Ben Stevenson
 
 ## Contact
