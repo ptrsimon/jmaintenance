@@ -47,7 +47,8 @@ installdir="/opt/jmaintenance"
 ! [ "$(whoami)" == "root" ] && whiptail \
     --backtitle "jmaintenance $VERSION installer" \
     --title "ERROR!" \
-    --msgbox "Not running as root user, abort!" 0 0
+    --msgbox "Not running as root user, abort!" 0 0 \
+    && exit 1
 
 # Import version from src/config.bash
 VERSION="$(cat src/config.bash | grep VERSION= | awk -F = '{print $2}' | rev | cut --complement -c -1 | rev |  cut --complement -c -1)"
