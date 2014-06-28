@@ -1,0 +1,74 @@
+.\" Manpage for jmaintenance
+.\" Contact psimon@gmx.us to correct errors or typos.
+.TH man 8 "8 June 2014" "0.5-beta" "jmaintenance man page"
+.SH NAME
+jmaintenance \- perform system maintenance and recovery
+.SH SYNTAX
+maintenance [OPTIONS]
+.SH DESCRIPTION
+jmaintenance is a system recovery script designed to fix common errors which may occur on a Debian GNU/Linux system, such as incorrect permissions, misconfiguration, filesystem errors or lack of disk space. Run this script in single-user mode.
+.br
+This program is a simplified frontend for lower-level system tools - it makes use of the following programs:
+.br
+fsck - fix filesystem errors
+.br
+dpkg - fix broken packages
+.br
+apt - reinstall packages, fix broken dependencies
+.br
+dpkg-reconfigure - reconfigure packages
+.br
+chmod - repair permissions
+.br
+rm - free up disk space
+.br
+And many other utilities, take a look at the source for more information.
+.SH OPTIONS
+.B "\-l <LOGFILE>"
+.br
+	specify logfile location
+
+.B "\-L"
+.br
+	disable logging
+
+.B "\-R"
+.br
+	skip runlevel check eg. when /sbin/runlevel is not available (USE WITH CAUTION!)
+
+.B "\-U"
+.br
+	skip user check eg. when /bin/whoami is not available
+
+.B "\-W"
+.br
+	disable the following prompt: "Press "c" to continue, any other key to abort" (USE WITH CAUTION!)
+
+.B "\-s"
+.br
+	disable verbose output (silent mode)
+
+.B "\-h"
+.br
+	print help and exit
+
+.B "\-v"
+.br
+	display version information and exit
+
+.SH FILES
+.B "/etc/jmaintenance.conf"
+.br
+configuration file, syntax is documented in the comments
+.SH SEE ALSO
+fsck(8), dpkg(1), dpkg-reconfigure(8)
+.SH BUGS
+Filesystem repair doesn't work in standard recovery mode (rootfs locked by other process).
+.br
+Workaround: boot the system in single-user mode with the init 1 kernel parameter.
+.br
+Currently under installable under /usr/sbin/jmaintenance/, which violates the FSH standard.
+.br
+The next release will introduce an installer script which will allow installation under /opt or any other directory.
+.SH AUTHOR
+Peter Simon (psimonprs@gmail.com)

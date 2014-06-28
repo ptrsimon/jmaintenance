@@ -1,0 +1,85 @@
+CHANGELOG - jmaintenance
+
+NOTE: this changelog is not complete, just a history of development in a nutshell. 
+      Complete revision history is available from version 0.6, where we migrated to Git.
+
+
+Release 0.1-alpha	2014/01/11
+	*Initial release*
+
+Release 0.2-beta	2014/02/12
+	Feature:	rootfs repair with fsck
+	Feature:	/home permission and ownership repair
+	Feature:	restoring $PATH to a safe value for script subshell
+	Feature:	logfiles have timestamps in their names (thanks for Ben Stevenson)
+	Feature:        --version option
+	Feature:	wait for user confirmation on warning
+	Feature:	prompt before dpkg reconfiguration
+	Feature:        colorized [ INFO ] messages
+	Change:		hardcoded program checks replaced with chk_opt () and chk_crit ()
+	Bugfix:		typos
+
+Release 0.3-beta	2014/03/28
+	Feature:	list possible choices in repair_usperm ()
+	Feature:	self-destruction protection
+	Feature:	using readline input to allow backspaces
+	Feature:	new options: -R -U -l <LOGFILE> -L -s -W -h
+	Change:		option handling now uses getops
+	Change:		performing user check BEFORE log file creation
+	Change:		user check replaced with /usr/bin/whoami
+	Change:		unified coding style
+	Bugfix:		trying to write to readonly root
+	Bugfix:		menu selects operation on special keystroke (eg. PageUp)
+	Bugfix:		useless user check log entry
+	Bugfix:         typos
+	Other:		license changed to GPLv2
+	Other:		added manpage (jmaintenance(8))
+
+Release 0.4-beta	2014/04/17
+	Feature:	ncurses main menu
+	Feature:	prompt to reboot when completed
+	Feature:	configuration file support
+	Feature:	/usr/(s)bin permission repair
+	Change:		rebuilt choice logging system
+	Change:		while : changed to while true (more readable)
+	Change:		reordered help message
+	Change:		more sensible logic in skipping system checks
+	Change:		chk_opt return value removed
+	Change:		info color changed to cyan
+        Change:         fixed more odd-style code
+	Change:		1/0 switches replaced with "true"/"false" ones
+	Change:		function declarations changed to "function samplefunc {...}"
+	Bugfix:		replaced all program calls with $EXEC_PATH-style ones
+	Bugfix:		warningpr() ignores $NOWARN value
+	Bugfix:		exit on unknown runlevel
+	Bugfix:		line 224, if statement - non-unary operator
+	Bugfix:		$SCRIPTDIR determination now uses absolute paths
+	Bugfix:		removed readline input from single-keystroke read calls
+	Bugfix:		now using local variables
+	Bugfix:		strings now double-quoted
+	Other:		moved CHANGELOG and TODO to separate files
+	Other:		README, LICENSE and INSTALL files created
+	Other:		more detailed description in manpage
+	Other:		bug "rootfs repair in recovery mode doesn't work" presented in the manpage
+	Other:		cleaned up comments
+
+Release 0.5-beta
+	NOTE:		not listing all changes in detail here as 0.5 is nearly a full rewrite.
+	
+	Feature:	fix system directory permissions
+	Feature:	reinstall all packages
+	Feature:	fix packages with apt-get -f install
+	Feature:	now more messages are in ncurses
+	Feature:	more sophisticated fs_repair function
+	Bugfix:		unified CLI options
+	Change:		merged chk_crit and chk_opt functions into chk_exec PRIORITY TARGET
+	Change:         single log file
+	Change:         more readable [ OK|INFO|WARN|FAIL ] messages
+	Change:		removed feature: self-removal protection (reason: useless, the script resides under /usr/sbin/jmaintenace)
+	Other:		code split into multiple files
+	Other:		tarball directory tree changed
+	Other:		full code cleanup
+
+Release 0.6-beta
+	Feature:	installer script
+	Other:		complete commit history throught Git, this file is no longer maintained
