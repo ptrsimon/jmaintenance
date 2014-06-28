@@ -28,6 +28,6 @@ For installation instructions see doc/INSTALL.
 Author: Peter Simon<br>
 Contributors: Michael Caron Coutier, Ben Stevenson
 
-## Contact
+### Contact
 
 To report bugs, submit patches, ask for features or technical support, write [here](mailto:psimonprs@gmail.com).
