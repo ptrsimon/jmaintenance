@@ -1,4 +1,4 @@
--- README - jmaintenance 0.5-beta --
+-- README - jmaintenance --
 
 -- Abstract --
 Jmaintenance is a system recovery program that tries to fix common errors which might keep the system from booting.
