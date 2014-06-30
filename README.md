@@ -15,6 +15,10 @@ This program is written for the JackOS Project, a Debian based, innovative GNU/L
 This is free and open source software, released under GPL version 2. See LICENSE for more information.
 Copyright (C) 2014 Péter Simon.
 
+### Current status
+
+jmaintenance is tested a lot, but it is still not ready for production systems. Currently it's in beta state. You can help improving it by testing jmaintenance and reporting any bugs you find.
+
 ### Documentation
 
 The program is documented in its manual page, jmaintenance(8) (you can find it under doc/manpage).
