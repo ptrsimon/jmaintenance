@@ -92,7 +92,7 @@ else
 fi
 
 # Install documentation
-printf "$INFO Compressing manpage..."
+printf "$INFO Compressing manpage...\n"
 if gzip doc/jmaintenance.8;
 then
     printf "$OK Compressed manpage\n"
