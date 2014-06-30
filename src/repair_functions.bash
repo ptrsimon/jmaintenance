@@ -190,7 +190,7 @@ function sys_reinstall
 	    message "optional" "scroll" "OK" "Brought up interface $iface"
 	else
 	    log "$FAIL Failed to bring up interface $iface, abort!"
-	    message "critical" "scroll" "FAIL" "Failed tobring up interface $iface, abort!"
+	    message "critical" "scroll" "FAIL" "Failed to bring up interface $iface, abort!"
 	fi
     done
     

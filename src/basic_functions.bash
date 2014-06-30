@@ -42,8 +42,8 @@ function message
     function output_ncurses
     {
 	! $WHIPTAIL_PATH --yes-button "Continue" --no-button "Abort" --yesno "$MESSAGE" 0 0 2> /dev/null && \
-	    log "$INFO Aborted by user, returning to main menu" && \
-	    printf "\n$INFO Aborted by user, returning to main menu\n" && \
+	    log "$INFO Aborted by user, exiting" && \
+	    printf "\n$INFO Aborted by user, exiting\n" && \
 	exit $EX_OK
     }
 
