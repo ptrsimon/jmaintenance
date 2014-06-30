@@ -45,7 +45,7 @@ function message
 	    log "$INFO Aborted by user, returning to main menu" && \
 	    printf "\n$INFO Aborted by user, returning to main menu\n" && \
 	    return
-	return 0
+	exit $EX_OK
     }
 
     function output_text
