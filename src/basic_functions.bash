@@ -44,7 +44,6 @@ function message
 	! $WHIPTAIL_PATH --yes-button "Continue" --no-button "Abort" --yesno "$MESSAGE" 0 0 2> /dev/null && \
 	    log "$INFO Aborted by user, returning to main menu" && \
 	    printf "\n$INFO Aborted by user, returning to main menu\n" && \
-	    return
 	exit $EX_OK
     }
 
