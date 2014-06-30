@@ -182,7 +182,7 @@ function sys_reinstall
 	message "critical" "scroll" "FAIL" "Failed to start networking, abort!"
 	return
     fi
-    for iface in "$($CAT_PATH /etc/network/interfaces | $GREP_PATH iface | $AWK_PATH '{print $2}')"
+    for iface in "$($CAT_PATH /etc/network/interfaces | $GREP_PATH --invert-match lo| $GREP_PATH iface | $AWK_PATH '{print $2}')"
     do
 	if $IFUP_PATH "$iface";
 	then
