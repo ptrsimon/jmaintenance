@@ -23,7 +23,7 @@
 
 
 ### BEGIN SCRIPT ###
-SCRIPTPATH="/usr/sbin/jmaintenance/"
+SCRIPTPATH="/opt/jmaintenance/"
 if cd $SCRIPTPATH 2> /dev/null;
 then
     :
