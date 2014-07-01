@@ -23,14 +23,14 @@
 
 
 ### BEGIN SCRIPT ###
-#SCRIPTPATH="/usr/sbin/jmaintenance/"
-#if cd $SCRIPTPATH 2> /dev/null;
-#then
-#    :
-#else
-#    printf "\e[7;31mFAIL\e[0m Failed to change working directory!\nMake sure you are root and the program resides in $SCRIPTPATH.\nAbort.\n"
-#    exit 71 # OSERR
-#fi
+SCRIPTPATH="/usr/local/sbin/jmaintenance/"
+if cd $SCRIPTPATH 2> /dev/null;
+then
+    :
+else
+    printf "\e[7;31mFAIL\e[0m Failed to change working directory!\nMake sure you are root and the program resides in $SCRIPTPATH.\nAbort.\n"
+    exit 71 # OSERR
+fi
 
 # Function to include files # USAGE: include FILE
 function include
