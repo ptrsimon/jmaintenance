@@ -152,6 +152,7 @@ function remove
 	printf "$FAIL Failed to remove documentation, abort!\n"
 	exit 1
     fi
+    rmdir /usr/local/share/man/man8/ 2> /dev/null
 
     # Give final hint
     whiptail \
