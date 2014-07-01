@@ -71,3 +71,7 @@ XARGS_PATH="/usr/bin/xargs"
 APTITUDE_PATH="/usr/bin/aptitude"
 # clear
 CLEAR_PATH="/usr/bin/clear"
+# ping
+PING_PATH="/bin/ping"
+# ifup
+IFUP_PATH="/sbin/ifup"

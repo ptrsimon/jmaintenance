@@ -1,0 +1,188 @@
+#!/bin/bash
+####################
+### jmaintenance ###
+####################
+# install - installer script
+#
+# Copyright (C) 2014 Peter Simon
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 2
+# of the License, or (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, write to the Free Software
+# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+#
+
+### BEGIN SCRIPT ###
+
+## Variable definitions ##
+
+# Standard message colors
+readonly OK="\e[7;32m OK \e[0m"
+readonly INFO="\e[7;36mINFO\e[0m"
+readonly WARN="\e[7;33mWARN\e[0m"
+readonly FAIL="\e[7;31mFAIL\e[0m"
+# Installation directory
+INSTALLDIR="/opt/jmaintenance"
+
+## Preparation ##
+
+# Check PWD
+! [ "$(echo $PWD | rev | awk -F / '{print $1}' | rev)" = "jmaintenance" ] && \
+    whiptail \
+    --backtitle "jmaintenance installer" \
+    --title "Not in program directory!" \
+    --msgbox "You are not in the program directory, please cd to jmaintenance and rerun the script." \
+    0 0 \
+    && exit 1
+
+# Check user
+! [ "$(whoami)" == "root" ] && whiptail \
+    --backtitle "jmaintenance $VERSION installer" \
+    --title "ERROR!" \
+    --msgbox "Not running as root user, abort!" 0 0 \
+    && exit 1
+
+# Import version from src/config.bash
+VERSION="$(cat src/config.bash | grep VERSION= | awk -F = '{print $2}' | rev | cut --complement -c -1 | rev |  cut --complement -c -1)"
+
+## Installation ##
+
+function install
+{
+    # Make installation directory under /opt
+    if mkdir "$INSTALLDIR";
+    then
+	printf "$OK Created installation directory: $INSTALLDIR\n"
+    else
+	printf "$FAIL Failed to create installation directory: $INSTALLDIR\n"
+	exit 1
+    fi
+    
+    # Copy files
+    if cp src/*.bash "$INSTALLDIR";
+    then
+	printf "$OK Copied files to target directory\n"
+    else
+	printf "$FAIL Failed to copy files to target directory, abort!\n"
+    fi
+    
+    # Set up symlink
+    if ln -s "$INSTALLDIR/main.bash" /usr/local/sbin/jmaintenance;
+    then
+	printf "$OK Set up symlink under /usr/local/sbin\n"
+    else
+	printf "$FAIL Failed to set up symlink under /usr/local/sbin\n"
+	exit 1
+    fi
+
+    # Install config file
+    if cp etc/jmaintenance.conf /etc/jmaintenance.conf;
+    then
+	printf "$OK Installed config file\n"
+    else
+	printf "$FAIL Failed to install config file, abort!\n"
+	exit 1
+    fi
+    
+    # Install documentation
+    local mandir="/usr/local/share/man/man8/"
+    if mkdir "$mandir";
+    then
+	printf "$OK Created manual directory\n"
+    else
+	printf "$WARN Failed to create manual directory, maybe it exists\n"
+    fi
+    
+    if cp doc/jmaintenance.8 "$mandir"
+    then
+	printf "$OK Installed manual page\n"
+    else
+	printf "$FAIL Failed to install manual page, abort!"
+	exit 1
+    fi
+
+    printf "$INFO Compressing manpage...\n"
+    if gzip "$mandir"/jmaintenance.8;
+    then
+        printf "$OK Compressed manpage\n"
+    else
+        printf "$FAIL Failed to compress manpage, abort!\n"
+        exit 1
+    fi
+    
+    # Give final hint
+    whiptail \
+	--backtitle "jmaintenance $VERSION installer" \
+	--msgbox "Installation finished. Now you can run jmaintenance from single user mode." 0 0
+}
+
+## Removal ##
+function remove
+{
+    # Remove symlink
+    if rm /usr/local/sbin/jmaintenance;
+    then
+	printf "$OK Removed symlink\n"
+    else
+	printf "$FAIL Failed to remove symlink, please remove it manually from /usr/local/sbin\n"
+    fi
+
+    # Remove files
+    if rm -rf /opt/jmaintenance;
+    then
+	printf "$OK Removed files\n"
+    else
+	printf "$FAIL Failed to remove files, please remove them manually from /opt/jmaintenance\n"
+    fi
+    
+    # Remove documentation
+    if rm /usr/local/share/man/man8/jmaintenance.8.gz;
+    then
+	printf "$OK Removed documentation\n"
+    else
+	printf "$FAIL Failed to remove documentation, abort!\n"
+	exit 1
+    fi
+
+    # Give final hint
+    whiptail \
+	--backtitle "jmaintenance $VERSION installer" \
+        --msgbox "Removal finished." 0 0
+}
+
+## Start menu ##
+
+tmpfile="$(mktemp)"
+! whiptail \
+    --backtitle "jmaintenance $VERSION installer" \
+    --title "Welcome to jmaintenance!" \
+    --yes-button "Continue" \
+    --no-button "Abort" \
+    --menu "Select an action" 0 0 0 \
+    "1" "Install jmaintenance" \
+    "2" "Remove jmaintenance" 2>"$tmpfile" \
+    && exit 0
+
+choice="$(cat $tmpfile)"
+
+case "$choice" in
+    1)
+	install
+	;;
+    2)
+	remove
+	;;
+    *)
+	printf "$FAIL Internal program error at line 141, please submit a bug report.\n"
+	exit 1
+	;;
+esac

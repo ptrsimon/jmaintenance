@@ -171,10 +171,32 @@ function fix_sysperm
 function sys_reinstall
 {
     log "$INFO sys_reinstall called"
+
+    # Bring up networking
+    if /etc/init.d/networking start;
+    then
+	log "$OK Networking started"
+	message "optional" "scroll" "OK" "Networking started"
+    else
+	log "$FAIL Failed to start networking, abort!"
+	message "critical" "scroll" "FAIL" "Failed to start networking, abort!"
+	return
+    fi
+    for iface in "$($CAT_PATH /etc/network/interfaces | $GREP_PATH --invert-match lo| $GREP_PATH iface | $AWK_PATH '{print $2}')"
+    do
+	if $IFUP_PATH "$iface";
+	then
+	    log "$OK Brought up interface $iface, abort!"
+	    message "optional" "scroll" "OK" "Brought up interface $iface"
+	else
+	    log "$FAIL Failed to bring up interface $iface, abort!"
+	    message "critical" "scroll" "FAIL" "Failed to bring up interface $iface, abort!"
+	fi
+    done
     
     log "$INFO Testing network connection..."
     message "optional" "scroll" "INFO" "Testing network connection..."
-    if ping -c 1 debian.org > /dev/null;
+    if $PING_PATH -c 1 debian.org > /dev/null;
     then
 	log "$OK Networking is working"
 	message "optional" "scroll" "OK" "Networking is working"
