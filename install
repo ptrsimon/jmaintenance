@@ -85,34 +85,69 @@ function install
     fi
     
     # Install documentation
-    printf "$INFO Compressing manpage...\n"
-    if gzip doc/jmaintenance.8;
-    then
-	printf "$OK Compressed manpage\n"
-    else
-	printf "$FAIL Failed to compress manpage, abort!\n"
-	exit 1
-    fi
-    
-    mandir="/usr/local/share/man/man8/"
+    local mandir="/usr/local/share/man/man8/"
     if mkdir "$mandir";
     then
 	printf "$OK Created manual directory\n"
     else
-	printf "$FAIL Failed to create manual directory, abort!\n"
+	printf "$WARN Failed to create manual directory, maybe it exists\n"
     fi
     
-    if cp doc/jmaintenance.8.gz "$mandir"
+    if cp doc/jmaintenance.8 "$mandir"
     then
 	printf "$OK Installed manual page\n"
     else
 	printf "$FAIL Failed to install manual page, abort!"
+	exit 1
+    fi
+
+    printf "$INFO Compressing manpage...\n"
+    if gzip "$mandir"/jmaintenance.8;
+    then
+        printf "$OK Compressed manpage\n"
+    else
+        printf "$FAIL Failed to compress manpage, abort!\n"
+        exit 1
     fi
     
     # Give final hint
     whiptail \
 	--backtitle "jmaintenance $VERSION installer" \
 	--msgbox "Installation finished. Now you can run jmaintenance from single user mode." 0 0
+}
+
+## Removal ##
+function remove
+{
+    # Remove symlink
+    if rm /usr/local/sbin/jmaintenance;
+    then
+	printf "$OK Removed symlink\n"
+    else
+	printf "$FAIL Failed to remove symlink, please remove it manually from /usr/local/sbin\n"
+    fi
+
+    # Remove files
+    if rm -rf /opt/jmaintenance;
+    then
+	printf "$OK Removed files\n"
+    else
+	printf "$FAIL Failed to remove files, please remove them manually from /opt/jmaintenance\n"
+    fi
+    
+    # Remove documentation
+    if rm /usr/local/share/man/man8/jmaintenance.8.gz;
+    then
+	printf "$OK Removed documentation\n"
+    else
+	printf "$FAIL Failed to remove documentation, abort!\n"
+	exit 1
+    fi
+
+    # Give final hint
+    whiptail \
+	--backtitle "jmaintenance $VERSION installer" \
+        --msgbox "Removal finished." 0 0
 }
 
 ## Start menu ##
