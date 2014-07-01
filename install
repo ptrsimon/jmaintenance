@@ -83,6 +83,15 @@ function install
 	printf "$FAIL Failed to set up symlink under /usr/local/sbin\n"
 	exit 1
     fi
+
+    # Install config file
+    if cp etc/jmaintenance.conf /etc/jmaintenance.conf;
+    then
+	printf "$OK Installed config file\n"
+    else
+	printf "$FAIL Failed to install config file, abort!\n"
+	exit 1
+    fi
     
     # Install documentation
     local mandir="/usr/local/share/man/man8/"
