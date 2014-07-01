@@ -17,15 +17,15 @@ Copyright (C) 2014 Péter Simon.
 
 ### Current status
 
-jmaintenance is tested a lot, but it is still not ready for production systems. Currently it's in beta state. You can help improving it by testing jmaintenance and reporting any bugs you find.
+jmaintenance is tested a lot, but it is still not ready for production systems. Currently it's in beta stage. You can help improve it by testing jmaintenance and reporting any bugs you find.
 
 ### Documentation
 
-The program is documented in its manual page, jmaintenance(8) (you can find it under doc/manpage).
+The program is documented in its manual page, jmaintenance(8) (you can find it under `doc/jmaintenance.8`).
 
 ### Installation
 
-For installation instructions see doc/INSTALL.
+For installation instructions see `doc/INSTALL`.
 
 ### Authors
 
