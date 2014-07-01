@@ -54,69 +54,91 @@ INSTALLDIR="/opt/jmaintenance"
 # Import version from src/config.bash
 VERSION="$(cat src/config.bash | grep VERSION= | awk -F = '{print $2}' | rev | cut --complement -c -1 | rev |  cut --complement -c -1)"
 
-# Display welcome message
+## Installation ##
+
+function install
+{
+    # Make installation directory under /opt
+    if mkdir "$INSTALLDIR";
+    then
+	printf "$OK Created installation directory: $INSTALLDIR\n"
+    else
+	printf "$FAIL Failed to create installation directory: $INSTALLDIR\n"
+	exit 1
+    fi
+    
+    # Copy files
+    if cp src/*.bash "$INSTALLDIR";
+    then
+	printf "$OK Copied files to target directory\n"
+    else
+	printf "$FAIL Failed to copy files to target directory, abort!\n"
+    fi
+    
+    # Set up symlink
+    if ln -s "$INSTALLDIR/main.bash" /usr/local/sbin/jmaintenance;
+    then
+	printf "$OK Set up symlink under /usr/local/sbin\n"
+    else
+	printf "$FAIL Failed to set up symlink under /usr/local/sbin\n"
+	exit 1
+    fi
+    
+    # Install documentation
+    printf "$INFO Compressing manpage...\n"
+    if gzip doc/jmaintenance.8;
+    then
+	printf "$OK Compressed manpage\n"
+    else
+	printf "$FAIL Failed to compress manpage, abort!\n"
+	exit 1
+    fi
+    
+    mandir="/usr/local/share/man/man8/"
+    if mkdir "$mandir";
+    then
+	printf "$OK Created manual directory\n"
+    else
+	printf "$FAIL Failed to create manual directory, abort!\n"
+    fi
+    
+    if cp doc/jmaintenance.8.gz "$mandir"
+    then
+	printf "$OK Installed manual page\n"
+    else
+	printf "$FAIL Failed to install manual page, abort!"
+    fi
+    
+    # Give final hint
+    whiptail \
+	--backtitle "jmaintenance $VERSION installer" \
+	--msgbox "Installation finished. Now you can run jmaintenance from single user mode." 0 0
+}
+
+## Start menu ##
+
+tmpfile="$(mktemp)"
 ! whiptail \
     --backtitle "jmaintenance $VERSION installer" \
     --title "Welcome to jmaintenance!" \
     --yes-button "Continue" \
     --no-button "Abort" \
-    --yesno "This installer will set up jmaintenance, a system recovery program." 0 0 \
+    --menu "Select an action" 0 0 0 \
+    "1" "Install jmaintenance" \
+    "2" "Remove jmaintenance" 2>"$tmpfile" \
     && exit 0
 
-## Installation ##
+choice="$(cat $tmpfile)"
 
-# Make installation directory under /opt
-if mkdir "$INSTALLDIR";
-then
-    printf "$OK Created installation directory: $INSTALLDIR\n"
-else
-    printf "$FAIL Failed to create installation directory: $INSTALLDIR\n"
-    exit 1
-fi
-
-# Copy files
-if cp src/*.bash "$INSTALLDIR";
-then
-    printf "$OK Copied files to target directory\n"
-else
-    printf "$FAIL Failed to copy files to target directory, abort!\n"
-fi
-
-# Set up symlink
-if ln -s "$INSTALLDIR/main.bash" /usr/local/sbin/jmaintenance;
-then
-    printf "$OK Set up symlink under /usr/local/sbin\n"
-else
-    printf "$FAIL Failed to set up symlink under /usr/local/sbin\n"
-    exit 1
-fi
-
-# Install documentation
-printf "$INFO Compressing manpage...\n"
-if gzip doc/jmaintenance.8;
-then
-    printf "$OK Compressed manpage\n"
-else
-    printf "$FAIL Failed to compress manpage, abort!\n"
-    exit 1
-fi
-
-mandir="/usr/local/share/man/man8/"
-if mkdir "$mandir";
-then
-    printf "$OK Created manual directory\n"
-else
-    printf "$FAIL Failed to create manual directory, abort!\n"
-fi
-
-if cp doc/jmaintenance.8.gz "$mandir"
-then
-    printf "$OK Installed manual page\n"
-else
-    printf "$FAIL Failed to install manual page, abort!"
-fi
-
-# Give final hint
-whiptail \
-    --backtitle "jmaintenance $VERSION installer" \
-    --msgbox "Installation finished. Now you can run jmaintenance from single user mode." 0 0
+case "$choice" in
+    1)
+	install
+	;;
+    2)
+	remove
+	;;
+    *)
+	printf "$FAIL Internal program error at line 141, please submit a bug report.\n"
+	exit 1
+	;;
+esac
