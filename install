@@ -77,17 +77,17 @@ fi
 # Copy files
 if cp src/*.bash "$INSTALLDIR";
 then
-    printf "$OK copied files to target directory\n"
+    printf "$OK Copied files to target directory\n"
 else
-    printf "$FAIL failed to copy files to target directory, abort!\n"
+    printf "$FAIL Failed to copy files to target directory, abort!\n"
 fi
 
 # Set up symlink
 if ln -s "$INSTALLDIR/main.bash" /usr/local/sbin/jmaintenance;
 then
-    printf "$OK set up symlink under /usr/local/sbin\n"
+    printf "$OK Set up symlink under /usr/local/sbin\n"
 else
-    printf "$FAIL failed to set up symlink under /usr/local/sbin\n"
+    printf "$FAIL Failed to set up symlink under /usr/local/sbin\n"
     exit 1
 fi
 
