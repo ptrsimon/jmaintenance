@@ -2,9 +2,5 @@ TODO - jmaintenance 0.5-beta
 
 
 Debug:	   do extensive testing
-Debug:	   verify if the naming transition to jmaintenance from maintenance was smooth
-Debug:	   make it installable under other directories
 Feature:   continue normal boot
 Feature:   boot into failsage X session
-Feature:   redirect all errors on silent mode?
-Other:	   complete installer script

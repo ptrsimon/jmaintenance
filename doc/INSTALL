@@ -1,18 +1,5 @@
 Installation instructions - jmaintenance
 
-The following commands install jmaintenance (run them as root):
-    jmdir="/usr/sbin/jmaintenance"
-    mkdir -v $jmdir
-    cd to source directory (src subdirectory of an archive)
-    cp -v *.bash $jmdir
-    chown -v root:root $jmdir/*
-    chmod -v 755 $jmdir/*
-    ln -vs $jmdir/main.bash /usr/sbin/maintenance
+To install jmaintenance, run the installer script and choose Install or Upgrade respectively.
 
-Now you can run it by typing "maintenance" in single user mode.
-
-NOTE 1: these instrutions do not contain installation instructions for documentation like manual pages.
-NOTE 2: to ease the installation, an installer script is being developed.
-NOTE 3: these commands violate the FSH standards (directory under /usr/sbin),
-	the next release will be installable under /opt or any other directory as well.
-NOTE 4: if you need to install it elsewhere now, modify the $SCRIPTPATH variable in main.bash.
+It will install jmaintenance to /opt/jmaintenance and create a symbolic link to /usr/local/sbin.
