@@ -168,8 +168,10 @@ tmpfile="$(mktemp)"
     --yes-button "Continue" \
     --no-button "Abort" \
     --menu "Select an action" 0 0 0 \
-    "1" "Install jmaintenance" \
-    "2" "Remove jmaintenance" 2>"$tmpfile" \
+    "1" "Install" \
+    "2" "Upgrade" \
+    "3" "Remove" \
+    2> "$tmpfile" \
     && exit 0
 
 choice="$(cat $tmpfile)"
@@ -179,6 +181,10 @@ case "$choice" in
 	install
 	;;
     2)
+	remove
+	install
+	;;
+    3)
 	remove
 	;;
     *)
