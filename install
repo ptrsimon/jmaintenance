@@ -35,15 +35,6 @@ INSTALLDIR="/opt/jmaintenance"
 
 ## Preparation ##
 
-# Check PWD
-! [ "$(echo $PWD | rev | awk -F / '{print $1}' | rev)" = "jmaintenance" ] && \
-    whiptail \
-    --backtitle "jmaintenance installer" \
-    --title "Not in program directory!" \
-    --msgbox "You are not in the program directory, please cd to jmaintenance and rerun the script." \
-    0 0 \
-    && exit 1
-
 # Check user
 ! [ "$(whoami)" == "root" ] && whiptail \
     --backtitle "jmaintenance $VERSION installer" \
