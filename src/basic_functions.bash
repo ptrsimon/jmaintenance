@@ -45,8 +45,8 @@ function message
 	then
 	    return $?
 	else
-	    log "$INFO Aborted by user, exiting"
-	    printf "\n$INFO Aborted by user, exiting\n"
+	    log "$INFO Aborted by user, exit"
+	    printf "\n$INFO Aborted by user, exit\n"
 	    exit $EX_OK
 	fi
     }
