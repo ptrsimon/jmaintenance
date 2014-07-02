@@ -26,7 +26,7 @@
 ## Pass 1 - default options (readonly variables cannot be overridden by CLI of config file options) ##
 
 # Version info
-readonly VERSION="0.5-beta"
+readonly VERSION="0.6.1-beta"
 
 # $PATH
 readonly PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
